@@ -25,7 +25,25 @@ While common public subsets contain truncated matrices, this framework processes
 * **Official Data Stream Link:** https://www.kaggle.com/datasets/adarshsng/lending-club-loan-data-csv
 ---
 
-
+### Core Project Execution Pipeline
+```text
+[ 1. Raw Credit Data (2.26M Rows) ]
+               │
+               ▼
+[ 2.EDA & DATA PREPROCESSING ]
+               │
+               ▼
+[ 3. Baseline Logistic Scorecard ] ─────────> (Establishes Linear Ceiling: 0.7199 AUC)
+               │
+               ▼
+[ 4. Stage 2 XGBoost Residual Auditor ] ────> (Predicts & Models Scorecard Mistakes)
+               │
+               ▼
+[ 5. SHAP Interaction & K-Means Audit ] ────> (Isolates & Profiles 3 Risk Clusters)
+               │
+               ▼
+[ 6. Live FastAPI Production Server ] ──────> (Real-Time Screening & Safe Approvals)
+```
 
 
 
@@ -209,42 +227,51 @@ We fitted our final production `KMeans(n_clusters=3)` engine onto the raw SHAP m
 
 ---
 ---
-
-# Repository Structure & Model Deployment API Architecture
+## Repository Structure & Model Deployment API Architecture
 
 ```text
-├── Part1_Data_Prep.ipynb          # EDA, Outlier Fencing, WoE Missingness Imputation
-├── Part2_Baseline_Model.ipynb     # Logistic Scorecard, Bayesian Tuning, Residual Extraction
-├── Part3_XGBoost_Auditor.ipynb    # Optuna 3-Fold CV, SHAP Visualization, K-Means Clustering
-├── final_detective_model.json     # Serialized production-ready XGBoost Booster object
-├── app.py                         # Production model deployment endpoint script (FastAPI)
-└── MRMG_Model_Weak_Spots_Report.xlsx # Enterprise-formatted financial audit spreadsheet
+├── Notebooks/
+│   ├── Base-Model-Logit.ipynb          # Logistic Scorecard, Bayesian Tuning, Residual Extraction
+│   ├── EDA and Data Preprocessing.ipynb # EDA, Outlier Fencing, WoE Missingness Imputation
+│   ├── K-Means-Clustering.ipynb         # Automated Centroid Pickling, Segment Audit Matrix
+│   └── XGBoost and SHAP.ipynb           # Optuna 3-Fold CV, Parallel Metadata Trace, SHAP Mappings
+├── app.py                               # Production dual-model deployment endpoint script (FastAPI)
+├── final_detective_model.json           # Serialized production-ready XGBoost Booster object
+├── final_kmeans_model.pkl               # Serialized production-ready K-Means Clustering object
+└── MRMG_Model_Weak_Spots_Audit_Report.xlsx # Enterprise-formatted financial audit spreadsheet
 ```
 
-The model registry artifact is served via FastAPI to enable real-time residual risk checking.
+The model registry artifacts are served simultaneously via FastAPI to enable real-time residual risk checking and automated population cluster allocation.
 
 ### Start the Local Production Server:
 ```bash
-pip install fastapi uvicorn
+pip install fastapi uvicorn xgboost scikit-learn
 uvicorn app:app --reload
 ```
 
-### API Endpoint Sample Payload (POST /predict_residual):
+### API Endpoint Sample Payload (`POST /evaluate_loan`):
 ```json
 {
-  "sub_grade": 0.035,
-  "int_rate": 0.204,
-  "loan_amnt": 0.872,
-  "annual_inc": 1.988,
-  "bc_util": 0.113
+  "sub_grade": "C2",
+  "int_rate": 14.5,
+  "loan_amnt": 12000,
+  "annual_inc": 75000,
+  "bc_util": 58.2
 }
 ```
+
 ### API JSON Response Object:
 ```json
 {
   "status": "SUCCESS",
-  "model_architecture": "XGBoost_Booster_Regression",
-  "calculated_residual_correction": -0.003142
+  "selected_tier": "C2",
+  "components_breakdown": {
+    "stage_1_baseline_probability": 0.22,
+    "stage_2_xgboost_correction_score": -0.042353,
+    "final_calculated_combined_probability": 0.1776
+  },
+  "mrmg_automated_cluster_id": 1,
+  "mrmg_assigned_segment": "Cluster 1: Stable Mainstream Prime Portfolio",
+  "final_credit_decision": "APPROVE - SAFE CREDIT PROFILE"
 }
 ```
-
