@@ -1,7 +1,7 @@
 # Portfolio Validation Framework: Institutional Credit Risk Testing & Non-Linear Weak-Spots Audit
 
 ### Project Objective & Executive Summary
-This project establishes a regulatory-grade Model Risk Management Group (MRMG) independent validation and testing framework engineered to satisfy tier-1 banking governance benchmarks (e.g., Federal Reserve SR 11-7 guidelines). 
+This project establishes a regulatory-grade Model Risk Management Group (MRMG) independent validation and testing framework engineered to satisfy tier-1 banking governance benchmarks. 
 
 Traditional consumer credit scorecards rely on linear mathematical planes (Logistic Regression) that are fundamentally blind to multi-variable feature interactions. This limitation creates systemic structural blind spots, causing unintercepted default leaks in over-optimistic pools or severe margin loss inside over-aggressive rejection traps. 
 
@@ -22,8 +22,7 @@ While common public subsets contain truncated matrices, this framework processes
 * **Optimized Model Dimensions:** Baseline metrics and engineered feature spaces downsampled and scaled to a primary 80-20 partition comprising 1,062,627 training records and 265,657 independent validation records across 88 standardized columns.
 * **Target Calibration Configuration:** Binary lending status tracking (0 = Fully Paid/Current, 1 = Defaulted/Charged-Off/Late, reflecting active collection recovery streams).
 * **Primary Data Sourcing Registry:** The historical baseline credit ledger used for this framework is sourced directly from the Kaggle repository registry.
-* **Official Data Stream Link:**[ [Kaggle Lending Club Loan Data Repository](https://kaggle.com)
-](https://www.kaggle.com/datasets/adarshsng/lending-club-loan-data-csv)
+* **Official Data Stream Link:** https://www.kaggle.com/datasets/adarshsng/lending-club-loan-data-csv
 ---
 
 
