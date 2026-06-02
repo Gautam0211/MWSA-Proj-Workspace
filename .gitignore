@@ -1,0 +1,12 @@
+# Block all dataset types completely
+*.parquet
+*.parquet
+*.csv
+*.xlsx
+X_train_base_scaled.parquet
+X_train_raw.parquet
+
+# Block runtime caches and environments
+.venv/
+__pycache__/
+.ipynb_checkpoints/
