@@ -9,7 +9,9 @@ To solve this, we developed a high-performance **Two-Stage Residual Regressor Fr
 1. **Stage 1 (Linear Core):** Deploy and hyperparameter-tune a baseline Credit Scorecard model to establish the absolute linear predictive ceiling.
 2. **Stage 2 (Machine Learning Auditor):** Extract the continuous calculation errors (residuals) and train a regularized, tree-based machine learning engine (**XGBoost**) to predict the direction and scale of the baseline's mistakes.
 3. **Stage 3 (Explainability & Segmentation):** Apply game-theoretic allocations (**SHAP**) to map structural feature interactions on true unscaled dollar metrics, and feed those risk signatures into an unsupervised clustering engine (**K-Means**) to surgically isolate and profile the bank's underperforming borrower segments.
-4. **Stage 4 (Real-Time Model Deployment):** Wrap the synchronized analytical engine into a low-latency enterprise microservice (FastAPI + Uvicorn) complete with strict data validation fences and transparent components auditing for front-end lending systems.
+4. **Stage 4 (Dual-Interface Production Deployment):** Deploy the synchronized analytical engine simultaneously as an enterprise **FastAPI microservice (api.py)** for machine-to-machine upstream integrations, and an **interactive Gradio Dashboard (app.py)** for live human underwriting, benchmark auditing, and portfolio risk mapping.The frontend presentation layer is completely containerized and **hosted live** via **Hugging Face Spaces**, serving real-time model comparisons and SHAP-space segmentation globally over the web with zero cold-start latency.
+   **Access the Live Interactive Terminal**
+You can interact with the production application interface, run live credit portfolio underwriting simulations, and audit multi-model risk breakdowns directly via your web browser here: https://huggingface.co/spaces/Gautam0211/Credit-Risk-Dashboard
 
 
 ---
@@ -43,7 +45,7 @@ While common public subsets contain truncated matrices, this framework processes
 [ 5. SHAP Interaction & K-Means Audit ] ────> (Isolates & Profiles 3 Risk Clusters)
                │
                ▼
-[ 6. Live FastAPI Production Server ] ──────> (Real-Time Screening & Safe Approvals)
+[ 6. Gradio Dashboard ] ──────> (Real-Time Interactive Portfolio UI & Safe Approvals)
 ```
 
 
@@ -236,13 +238,25 @@ We fitted our final production `KMeans(n_clusters=3)` engine onto the raw SHAP m
 │   ├── EDA and Data Preprocessing.ipynb # EDA, Outlier Fencing, WoE Missingness Imputation
 │   ├── K-Means-Clustering.ipynb         # Automated Centroid Pickling, Segment Audit Matrix
 │   └── XGBoost and SHAP.ipynb           # Optuna 3-Fold CV, Parallel Metadata Trace, SHAP Mappings
-├── app.py                               # Production dual-model deployment endpoint script (FastAPI)
+├── app.py                               # Production GUI Dashboard UI deployment script (Gradio)
+├── api.py                               # Low-latency enterprise microservice endpoint script (FastAPI)
 ├── final_detective_model.json           # Serialized production-ready XGBoost Booster object
 ├── final_kmeans_model.pkl               # Serialized production-ready K-Means Clustering object
+├── final_logistic_model.pkl             # Serialized benchmark Logistic Regression model object
+├── requirements.txt                     # Unified production dependency manifest
 └── MRMG_Model_Weak_Spots_Audit_Report.xlsx # Enterprise-formatted financial audit spreadsheet
 ```
 
 The model registry artifacts are served simultaneously via FastAPI to enable real-time residual risk checking and automated population cluster allocation.
+
+### 4. Production Environment Initialization
+**Option A:** Initialize the Interactive Gradio GUI Dashboard
+To run the visual credit underwriting terminal with live component breakdowns, benchmark comparisons, and real-time on-the-fly SHAP space clustering:
+pip install -r requirements.txt
+python app.py
+
+**Option B:** Initialize the Enterprise FastAPI Microservice
+To expose the microservice endpoint on your local network port to ingest high-frequency upstream credit data application arrays:
 
 ### Start the Local Production Server:
 ```bash
